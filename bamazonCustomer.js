@@ -23,6 +23,7 @@ connection.connect(function (err) {
     displayList();
 });
 
+// show initial list of what's available
 function displayList() {
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
@@ -35,11 +36,12 @@ function displayList() {
     });
 };
 
+// buy function and database update
 function buyProducts() {
     // query the database for all items being auctioned
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
-        // once you have the items, prompt the user for which they'd like to bid on
+        // prompt the user for what they'd like to buy
         inquirer
             .prompt([
                 {
@@ -67,18 +69,6 @@ function buyProducts() {
                     },
                     function (err, res) {
                         if (answer.quantity > res[0].stock_quantity) {
-                            // get the information of the chosen item
-                            // var chosenItem;
-                            // for (var i = 0; i < results.length; i++) {
-                            //     if (results[i].item_id === answer.choice) {
-                            //         chosenItem = results[i];
-                            //     }
-                            // }
-
-                            // determine if there is enough in stock
-                            // var quantityOrdered = answer.quantity;
-                            // var newStockQty = stock_quantity - quantityOrdered;
-
                             console.log("Sorry, insufficient quantity!");
                             displayList();
                         }
